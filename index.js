@@ -1,9 +1,13 @@
-addEventListener("fetch", event => {
-  event.respondWith((async () => {
-    const url = new URL(event.request.url);
-    const name = url.searchParams.get("name") ?? "world";
-    return new Response(JSON.stringify({ hello: name }), {
-      headers: { "Content-Type": "application/json" },
-    });
-  })());
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+  const name = req.query.name || req.query.n;
+  const message = `hello ${name ? name : 'world'}`;
+  res.json({ message });
+});
+
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
 });
